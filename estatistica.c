@@ -81,16 +81,33 @@ float betweenSd(int *arr, int len) {
 	}
 
 	return ((between/len)*100);
+}
 
+float moda(int *arr, int len) {
+	float actualModa = -1;
+	int maxTimes = 1;
+	for (int i = 0; i < len; i++) {
+		int times = 0;
+        for (int j = i; j < len; j++) {
+            if (arr[i] == arr[j]) {
+            	times++;
+            }
+        }
+        if (times > maxTimes) {
+        	maxTimes = times;
+        	actualModa = arr[i];
+        }
+    }
+    return actualModa;
 }
 
 int main () {
-    setlocale(LC_ALL, "Portuguese_Brazil");
-
+	setlocale(LC_ALL, "Portuguese_Brazil");
+	
 	int numbers[100], k = 0, len = 0;
-	printf("CALCULADORA ESTAT√çSTICA\n");
+	printf("CALCULADORA ESTATÕSTICA\n");
 	while (1) {
-		printf("Digite um n√∫mero (-1) para parar: ");
+		printf("Digite um n˙mero (-1) para parar: ");
 		scanf(" %d", &numbers[k]);
 		if (numbers[k++] == -1) break;
 	}
@@ -98,14 +115,19 @@ int main () {
 
 	float media = med(numbers, len);
 	float standart = sd(numbers, len);
+	float modah = moda(numbers, len);
 
 	printf("\n");
-	printf("M√âDIA: %g\n", media);
+	printf("TAMANHO DA AMOSTRA: %d\n", len);
+	printf("M…DIA: %g\n", media);
 	printf("MEDIANA: %g\n", mediana(numbers, len));
+	// if (modah == -1) printf("MODA: n„o h· moda\n");
+	if (modah != -1) printf("MODA: %g\n", modah);
 	printf("AMPLITUDE: %g\n", (max(numbers, len) - min(numbers, len)));
-	printf("VARI√ÇNCIA: %g\n", var(numbers, len));
-	printf("DESVIO PADR√ÉO: %g\n", standart);
+	printf("VARI¬NCIA: %g\n", var(numbers, len));
+	printf("DESVIO PADR√O: %g\n", standart);
 	printf("DADOS NO INTERVALO (%g; %g): %g%%\n", media - standart, media + standart, betweenSd(numbers, len));
+	printf("\nFIM\n\n");
 
 	return 0;
 }
