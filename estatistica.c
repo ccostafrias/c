@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <math.h>
 #include <locale.h>
+#include <time.h> //biblioteca para o tempo
+#include <stdlib.h> //biblioteca para o rand()
+
+int randomN(int min, int max) {
+    return rand() % (max - min + 1) + min;
+}
 
 int lenVec(int *arr) {
 	int len = 0, k = 0;
@@ -49,6 +55,16 @@ float var(int *arr, int len) {
 
 float sd(int *arr, int len) {
 	return sqrt(var(arr, len));
+}
+
+float mad(int *arr, int len) {
+	float sum = 0, media = med(arr, len);
+	for (int i = 0; i < len; i++) {
+		float num = arr[i] - media;
+		if (num < 0) num *= -1;
+		sum += num;
+	}
+	return sum/len;
 }
 
 float min(int *arr, int len) {
@@ -102,14 +118,30 @@ float moda(int *arr, int len) {
 }
 
 int main () {
+	srand(time(NULL)); 
+
 	setlocale(LC_ALL, "Portuguese_Brazil");
 	
-	int numbers[100], k = 0, len = 0;
+	int numbers[1000], k = 0, len = 0;
+	int debug = 1;
 	printf("CALCULADORA ESTATÍSTICA\n");
-	while (1) {
-		printf("Digite um número (-1) para parar: ");
-		scanf(" %d", &numbers[k]);
-		if (numbers[k++] == -1) break;
+	if (!debug) {
+		while (1) {
+			printf("Digite um número (-1) para parar: ");
+			scanf(" %d", &numbers[k]);
+			if (numbers[k++] == -1) break;
+		}
+	} else {
+		int size = 100;
+		for (int i = 0; i < size; i++) {
+			numbers[i] = randomN(1, size);  
+		}
+		numbers[size] = -1;
+		printf("NÚMEROS: \n");
+		for (int i = 0; i < size; i++) {
+			printf("%d ", numbers[i]);
+		}
+		printf("\n");
 	}
 	len = lenVec(numbers);
 
@@ -126,8 +158,9 @@ int main () {
 	printf("AMPLITUDE: %g\n", (max(numbers, len) - min(numbers, len)));
 	printf("VARIÂNCIA: %g\n", var(numbers, len));
 	printf("DESVIO PADRÃO: %g\n", standart);
+	printf("DESVIO MÉDIO: %g\n", mad(numbers, len));
 	printf("DADOS NO INTERVALO (%g; %g): %g%%\n", media - standart, media + standart, betweenSd(numbers, len));
-	printf("\nFIM\n\n");
+	printf("\nFIM\n");
 
 	return 0;
 }
