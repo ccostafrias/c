@@ -3,12 +3,13 @@
 #include <locale.h>
 #include <time.h> //biblioteca para o tempo
 #include <stdlib.h> //biblioteca para o rand()
+#include <ctype.h>
 
 int randomN(int min, int max) {
     return rand() % (max - min + 1) + min;
 }
 
-int lenVec(int *arr) {
+int lenVec(float *arr) {
 	int len = 0, k = 0;
 	while (1) {
 		if (arr[k] == -1) break;
@@ -18,7 +19,7 @@ int lenVec(int *arr) {
 	return len;
 }
 
-float mediana(int *arr, int len) {
+float mediana(float *arr, int len) {
 	for (int i = 0; i < len; i++) {
         for (int j = i; j < len; j++) {
             if (arr[i] > arr[j]) {
@@ -35,7 +36,7 @@ float mediana(int *arr, int len) {
     }
 }
 
-float med(int *arr, int len) {
+float med(float *arr, int len) {
 	float sum = 0;
 	for (int i = 0; i < len; i++) {
 		sum += arr[i];
@@ -43,7 +44,7 @@ float med(int *arr, int len) {
 	return (sum/len);
 }
 
-float var(int *arr, int len) {
+float var(float *arr, int len) {
 	float media = med(arr, len);
 
 	float sum = 0;
@@ -53,11 +54,11 @@ float var(int *arr, int len) {
 	return (sum/len);
 }
 
-float sd(int *arr, int len) {
+float sd(float *arr, int len) {
 	return sqrt(var(arr, len));
 }
 
-float mad(int *arr, int len) {
+float mad(float *arr, int len) {
 	float sum = 0, media = med(arr, len);
 	for (int i = 0; i < len; i++) {
 		float num = arr[i] - media;
@@ -67,7 +68,7 @@ float mad(int *arr, int len) {
 	return sum/len;
 }
 
-float min(int *arr, int len) {
+float min(float *arr, int len) {
 	float minimum = arr[0];
 	for (int i = 1; i < len; i++) {
 		if (arr[i] < minimum) minimum = arr[i];
@@ -76,7 +77,7 @@ float min(int *arr, int len) {
 	return minimum;
 }
 
-float max(int *arr, int len) {
+float max(float *arr, int len) {
 	float maximum = arr[0];
 	for (int i = 1; i < len; i++) {
 		if (arr[i] > maximum) maximum = arr[i];
@@ -85,7 +86,7 @@ float max(int *arr, int len) {
 	return maximum;
 }
 
-float betweenSd(int *arr, int len) {
+float betweenSd(float *arr, int len) {
 	float media = med(arr, len);
 	float standart = sd(arr, len);
 	float min = media - standart;
@@ -99,7 +100,7 @@ float betweenSd(int *arr, int len) {
 	return ((between/len)*100);
 }
 
-float moda(int *arr, int len) {
+float moda(float *arr, int len) {
 	float actualModa = -1;
 	int maxTimes = 1;
 	for (int i = 0; i < len; i++) {
@@ -117,19 +118,52 @@ float moda(int *arr, int len) {
     return actualModa;
 }
 
+void addNum(float *arr, float v, int w, int *k) {
+	int start = *k;
+	while (*k < (start + w)) {
+		arr[*k] = v;
+		(*k)++;
+	}
+}
+
+void cleanScreen() {
+	#ifdef _WIN32
+		system("cls");
+	#else
+		system("clear");
+	#endif
+}
+
 int main () {
 	srand(time(NULL)); 
 
 	setlocale(LC_ALL, "Portuguese_Brazil");
+
+	cleanScreen();
 	
-	int numbers[1000], k = 0, len = 0;
-	int debug = 1;
+	float numbers[1000];
+	int k = 0, len = 0;
+	int debug = 0;
+
 	printf("CALCULADORA ESTATÍSTICA\n");
+
 	if (!debug) {
+		char ans;
+		printf("USAR PESOS? (S/N) ");
+		scanf(" %c", &ans);
+		ans = toupper(ans);
+
 		while (1) {
+			int weight = 1;
+			float value;
 			printf("Digite um número (-1) para parar: ");
-			scanf(" %d", &numbers[k]);
-			if (numbers[k++] == -1) break;
+			scanf(" %f", &value);
+			if (value == -1.0) break;
+			if (ans == 'S') {
+				printf("Respectivo peso: ");
+				scanf(" %d", &weight);
+			}
+			addNum(numbers, value, weight, &k);
 		}
 	} else {
 		int size = 100;
@@ -139,11 +173,12 @@ int main () {
 		numbers[size] = -1;
 		printf("NÚMEROS: \n");
 		for (int i = 0; i < size; i++) {
-			printf("%d ", numbers[i]);
+			printf("%f ", numbers[i]);
+			k++;
 		}
 		printf("\n");
 	}
-	len = lenVec(numbers);
+	len = k;
 
 	float media = med(numbers, len);
 	float standart = sd(numbers, len);
@@ -153,7 +188,6 @@ int main () {
 	printf("TAMANHO DA AMOSTRA: %d\n", len);
 	printf("MÉDIA: %g\n", media);
 	printf("MEDIANA: %g\n", mediana(numbers, len));
-	// if (modah == -1) printf("MODA: não há moda\n");
 	if (modah != -1) printf("MODA: %g\n", modah);
 	printf("AMPLITUDE: %g\n", (max(numbers, len) - min(numbers, len)));
 	printf("VARIÂNCIA: %g\n", var(numbers, len));
