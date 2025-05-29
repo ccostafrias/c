@@ -19,7 +19,7 @@ int lenVec(float *arr) {
 	return len;
 }
 
-float mediana(float *arr, int len) {
+void sort(float* arr, int len) {
 	for (int i = 0; i < len; i++) {
         for (int j = i; j < len; j++) {
             if (arr[i] > arr[j]) {
@@ -29,11 +29,12 @@ float mediana(float *arr, int len) {
             }
         }
     }
-    if (len % 2) {
-    	return arr[(len/2)];
-    } else {
-    	return ((float)arr[(len/2)-1]+(float)arr[(len/2)])/2;
-    }
+}
+
+float mediana(float *arr, int len) {
+    if (len % 2) return arr[(len/2)];
+
+    return ((float)arr[(len/2)-1]+(float)arr[(len/2)])/2;
 }
 
 float med(float *arr, int len) {
@@ -86,18 +87,28 @@ float max(float *arr, int len) {
 	return maximum;
 }
 
-float betweenSd(float *arr, int len) {
-	float media = med(arr, len);
-	float standart = sd(arr, len);
+float betweenSd(float* nums, int len) {
+	float media = med(nums, len);
+	float standart = sd(nums, len);
 	float min = media - standart;
 	float max = media + standart;
 	float between = 0;
 
 	for (int i = 0; i < len; i++) {
-		if (arr[i] >= min && arr[i] <= max) between++;
+		if (nums[i] >= min && nums[i] <= max) between++;
 	}
 
 	return ((between/len)*100);
+}
+
+float betweenLimits(float* nums, int len, float LI, float LS) {
+	int between = 0;
+
+	for (int i = 0; i < len; i++) {
+		if (nums[i] >= LI && nums[i] <= LS) between++;
+	}
+
+	return ((between/len) * 100);
 }
 
 float moda(float *arr, int len) {
@@ -116,6 +127,16 @@ float moda(float *arr, int len) {
         }
     }
     return actualModa;
+}
+
+float quantil(float* nums, float p, int size) {
+	int k = p*(size+1);
+	float alpha = p*(size+1)-k;
+	float n0 = k != 0 ? nums[k-1] : nums[0];
+	float n1 = k != size ? nums[k] : nums[size-1];
+	float q = n0 + alpha*(n1-n0);
+
+	return q;
 }
 
 void addNum(float *arr, float v, int w, int *k) {
@@ -143,7 +164,7 @@ int main () {
 	
 	float numbers[1000];
 	int k = 0, len = 0;
-	int debug = 0;
+	int debug = 1;
 
 	printf("CALCULADORA ESTATÍSTICA\n");
 
@@ -173,23 +194,34 @@ int main () {
 		numbers[size] = -1;
 		printf("NÚMEROS: \n");
 		for (int i = 0; i < size; i++) {
-			printf("%f ", numbers[i]);
+			printf("%g ", numbers[i]);
 			k++;
 		}
 		printf("\n");
 	}
 	len = k;
 
+	sort(numbers, len);
 	float media = med(numbers, len);
 	float standart = sd(numbers, len);
 	float modah = moda(numbers, len);
+	float q1 = quantil(numbers, 0.25, len);
+	float q3 = quantil(numbers, 0.75, len);
+	float IQR = q3 - q1;
+	float LI = q1 - (1.5*IQR);
+	float LS = q3 + (1.5*IQR);
 
 	printf("\n");
 	printf("TAMANHO DA AMOSTRA: %d\n", len);
-	printf("MÉDIA: %g\n", media);
+	printf("X(1): %g\n", min(numbers, len));
+	printf("Q1%%: %g\n", q1);
 	printf("MEDIANA: %g\n", mediana(numbers, len));
-	if (modah != -1) printf("MODA: %g\n", modah);
+	printf("Q3%%: %g\n", q3);
+	printf("X(%d): %g\n", len, max(numbers, len));
+	printf("DENTRO DOS LIMITES (%g; %g): %g%%\n", LI, LS, betweenLimits(numbers, len, LI, LS));
 	printf("AMPLITUDE: %g\n", (max(numbers, len) - min(numbers, len)));
+	printf("MÉDIA: %g\n", media);
+	if (modah != -1) printf("MODA: %g\n", modah);
 	printf("VARIÂNCIA: %g\n", var(numbers, len));
 	printf("DESVIO PADRÃO: %g\n", standart);
 	printf("DESVIO MÉDIO: %g\n", mad(numbers, len));
