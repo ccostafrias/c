@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-int gcd(int a, int b) {
-    int res;
+long int gcd(long int a, long int b) {
+    long int res;
 
     while (1) {
         res = a % b;
@@ -12,14 +12,14 @@ int gcd(int a, int b) {
 }
 
 int main() {
-    int Y, K, X = 1;
-    scanf("%d %d", &Y, &K);
+    long int Y, K, X = 1;
+    scanf("%ld %ld", &Y, &K);
 
     for (int i = 0; i < K; i++) {
         X += gcd(X, Y);
     }
     
-    printf("%d", X);
+    printf("%ld", X);
 
     return 0;
 }
