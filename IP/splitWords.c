@@ -37,7 +37,6 @@ char** wordsSplited(const char* s, int words, char sep) {
     }
 
     return matrix;
-
 }
 
 int main() {
