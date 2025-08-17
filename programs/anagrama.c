@@ -14,14 +14,14 @@ void cleanScreen() {
 }
 
 void removeArr(char *arr, int c, int *len) {
-	//a partir do índice recebido, todos os elementos serão deslocados para a esquerda
+	//a partir do ï¿½ndice recebido, todos os elementos serï¿½o deslocados para a esquerda
 	for (int i = c; i < *len - 1; ++i) {
 		arr[i] = arr[i+1];
 	}
 
 	//diminui o tamanho do vetor
 	(*len)--;
-	//acresta o dígito que finaliza a string
+	//acrescenta o dï¿½gito que finaliza a string
 	arr[*len] = '\0';
 }
 
@@ -32,27 +32,27 @@ void ordenar(char *arr, char *ordened) {
 	while (size > 0) {
 		int min, c = 0;
 		for (int i = 0; i < size; i++) {
-			//retornará o valor em ASCII, para que possamos comparar
-			//ex: 65 (A) é menor que 74 (J)
-			//% 32 é necessário pois entre o 'A' (65) e o 'a' (97) há 32 caracteres
+			//retornarï¿½ o valor em ASCII, para que possamos comparar
+			//ex: 65 (A) ï¿½ menor que 74 (J)
+			//% 32 ï¿½ necessï¿½rio pois entre o 'A' (65) e o 'a' (97) hï¿½ 32 caracteres
 			int realLetter = (arr[i] - 'A') % 32;
-			//como é o início do looping, a primeira letra acaba sendo a menor
+			//como ï¿½ o inï¿½cio do looping, a primeira letra acaba sendo a menor
 			if (i == 0) min = realLetter;
 			else {
 				min = MIN(min, realLetter);
-				//c será definido como o índice onde foi achada a menor letra
+				//c serï¿½ definido como o ï¿½ndice onde foi achada a menor letra
 				if (min == realLetter) c = i;
 			}
 		}
 
-		//k servirá como um contador para ordenar toda menor letra que vier do loop
+		//k servirï¿½ como um contador para ordenar toda menor letra que vier do loop
 		ordened[k] = arr[c];
-		//a menor letra será removida da arr de referência
+		//a menor letra serï¿½ removida da arr de referï¿½ncia
 		removeArr(arr, c, &size);
 		k++;
 	}
 
-	ordened[k] = '\0'; // como é um vetor muito longo, finalizamos ele com '\0'
+	ordened[k] = '\0'; // como ï¿½ um vetor muito longo, finalizamos ele com '\0'
 }
 
 int main() {
@@ -60,10 +60,10 @@ int main() {
 
 	char **words;
 
-	//aloca espaço na memória para dois vetores (char *)
+	//aloca espaï¿½o na memï¿½ria para dois vetores (char *)
 	words = (char **)malloc(2*sizeof(char *));
 
-	//cada vetor (char *) alocará espaço na memória para 100 dígitos (char)
+	//cada vetor (char *) alocarï¿½ espaï¿½o na memï¿½ria para 100 dï¿½gitos (char)
 	words[0] = (char *)malloc(100*sizeof(char));
 	words[1] = (char *)malloc(100*sizeof(char));
 
@@ -80,21 +80,21 @@ int main() {
 
 	int size1 = strlen(words[0]);
 	char word1Ref[size1], word1Ordened[size1];
-	//copiar em 1ref o vetor words[0], para não modificá-lo diretamente
+	//copiar em 1ref o vetor words[0], para nï¿½o modificï¿½-lo diretamente
 	strcpy(word1Ref, words[0]);
 
 	int size2 = strlen(words[1]);
 	char word2Ref[size2], word2Ordened[size2];
-	//copiar em 2ref o vetor words[1], para não modificá-lo diretamente
+	//copiar em 2ref o vetor words[1], para nï¿½o modificï¿½-lo diretamente
 	strcpy(word2Ref, words[1]);
 
 	ordenar(word1Ref, word1Ordened);
 	ordenar(word2Ref, word2Ordened);
 
 	if (strcmp(word1Ordened, word2Ordened) == 0) {
-		printf("\n%s e %s são anagramas entre si!\n", words[0], words[1]);
+		printf("\n%s e %s sï¿½o anagramas entre si!\n", words[0], words[1]);
 	} else {
-		printf("\n%s e %s não são anagramas entre si...\n", words[0], words[1]);
+		printf("\n%s e %s nï¿½o sï¿½o anagramas entre si...\n", words[0], words[1]);
 	}
 
 	printf("\nFIM\n");
