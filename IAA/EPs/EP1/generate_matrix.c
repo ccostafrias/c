@@ -49,8 +49,9 @@ int main (int argc, char *argv[]) {
     int peso = atoi(argv[1]);
 
     matriz_peso(size, size, peso);
-  #endif
+  #else
     matriz_xadrez(size, size);
+  #endif
 
   return 0;
 }

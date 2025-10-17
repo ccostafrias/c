@@ -166,7 +166,7 @@ int main(int argc, char *argv[]) {
   ctx->matrix = (Cell**) malloc(ctx->rows*sizeof(Cell*));
   for (int i = 0; i < ctx->rows; i++) ctx->matrix[i] = (Cell*) malloc(ctx->cols*sizeof(Cell));
 
-  ctx->islands = (int*) calloc((ctx->rows * ctx->cols), sizeof(int)); // aloca dinamicamente espaço onde sera armazenado a qtd. de lixo de cada linha
+  ctx->islands = (int*) calloc((ctx->rows * ctx->cols)/2, sizeof(int)); // aloca dinamicamente espaço onde sera armazenado a qtd. de lixo de cada linha
   ctx->countIslands = 0; // comeca com 0 (zero) ilhas
 
   start_matrix(ctx); // inicia a matriz, recebendo os devidos inputs (scanf's) nas respectivas celulas
