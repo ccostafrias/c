@@ -89,3 +89,6 @@ Boolean remove_elemento(ListaSequencial * lista, Elemento e){
 	return FALSE;
 }
 
+Elemento valor_indice(ListaSequencial * lista, int indice) {
+	return lista->a[indice];
+}

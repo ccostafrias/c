@@ -98,3 +98,14 @@ Boolean remove_elemento(ListaSequencial * lista, Elemento e){
 	return FALSE;
 }
 
+Elemento valor_indice(ListaSequencial * lista, int indice) {
+	return lista->a[indice];
+}
+
+Elemento soma(ListaSequencial * lista) {
+	Elemento sum = 0;
+
+	for(int i = 0; i < lista->livre; i++) sum += valor_indice(lista, i);
+
+	return sum;
+}

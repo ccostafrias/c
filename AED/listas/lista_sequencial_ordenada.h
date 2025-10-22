@@ -19,4 +19,5 @@ void imprime(ListaSequencial * lista);
 int busca(ListaSequencial * lista, Elemento e);
 Boolean insere(ListaSequencial * lista, Elemento e);
 Boolean remove_elemento(ListaSequencial * lista, Elemento e);
-
+Elemento valor_indice(ListaSequencial * lista, int indice);
+Elemento soma(ListaSequencial * lista);

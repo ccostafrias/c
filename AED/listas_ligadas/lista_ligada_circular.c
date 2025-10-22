@@ -166,3 +166,23 @@ Boolean remove_elemento(ListaLigada * lista, Elemento e){
 
 	return FALSE;
 }
+
+Elemento valor_indice(ListaLigada * lista, int indice) {
+	int k = 0;
+	No * node = lista->cabeca->proximo;
+
+	while (k != (indice % lista->tamanho)) {
+		node = node->proximo;
+		k++;
+	}
+
+	return node != lista->cabeca ? node->valor: -1;
+}
+
+Elemento soma(ListaLigada * lista) {
+	Elemento sum = 0;
+
+	for(int i = 0; i < lista->tamanho; i++) sum += valor_indice(lista, i);
+
+	return sum;
+}

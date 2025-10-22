@@ -32,3 +32,4 @@ Boolean insere(ListaLigada * lista, Elemento e, int indice);
 #endif
 
 Boolean remove_elemento(ListaLigada * lista, Elemento e);
+Elemento valor_indice(ListaLigada * lista, int indice);

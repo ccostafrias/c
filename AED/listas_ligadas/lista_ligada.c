@@ -188,3 +188,15 @@ Boolean remove_elemento(ListaLigada * lista, Elemento e){
 
 	return FALSE;
 }
+
+Elemento valor_indice(ListaLigada * lista, int indice) {
+	int k = 0;
+	No * node = lista->primeiro;
+
+	while (k != indice) {
+		node = node->proximo;
+		k++;
+	}
+
+	return node->valor;
+}
