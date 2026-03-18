@@ -31,7 +31,7 @@ typedef struct {
 
 Coords moves[] = {
   {-1, 0},
-  {0, 1},
+  {0, -1},
   {1, 0},
   {0, 1},
 };
@@ -178,6 +178,7 @@ int main(int argc, char *argv[]) {
   ctx->container = (int*) calloc(ctx->countIslands, sizeof(int)); // aloca dinamicamente espaco para o container com o mesmo tamanho alocado para caber as ilhas
   ctx->containerSize = 0; // inicializa o tamanho do vetor
   
+  freopen("saida.out", "w", stdout);
   printf("%d\n", ctx->countIslands);
   print_vec(ctx->islands, ctx->countIslands, 1);
   if (tenta(ctx, 0, 0, ctx->capacidade)) print_vec(ctx->container, ctx->containerSize, 0);
