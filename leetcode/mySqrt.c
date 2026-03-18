@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 int mySqrt(int x) {
     if (x == 0 || x == 1) return x;
 
@@ -18,4 +20,10 @@ int mySqrt(int x) {
     }
 
     return -1;
+}
+
+int main() {
+    int num; scanf("%d", &num);
+    printf("SQRT de %d eh %d", num, mySqrt(num));
+    return 0;
 }
